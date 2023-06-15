@@ -2,8 +2,8 @@ create table Users (
 "user_id" varchar(60) primary key not null,
 "email" varchar(60) not null,
 "password" varchar(255) not null,
-"total_matches" int not null,
-"total_mmr" varchar(255) not null,
+"total_matches" int,
+"total_mmr" varchar(255),
 "created_at" date not null
 );
 
