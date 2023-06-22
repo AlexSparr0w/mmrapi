@@ -12,3 +12,8 @@ type User struct {
 	TotalMmr     string    `json:"mmr"`
 	CreatedAt    time.Time `gorm:"autoCreateTime" json:"created_at"`
 }
+
+type CreateUserRequest struct {
+	Email    string `json:"email" validate:"required"`
+	Password string `json:"password" validate:"required"`
+}

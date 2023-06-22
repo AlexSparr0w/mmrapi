@@ -8,17 +8,13 @@ import (
 	"github.com/AlexSparr0w/mmrapi/model"
 	"github.com/AlexSparr0w/mmrapi/utils"
 	"github.com/go-playground/validator"
+	"github.com/google/uuid"
 )
 
 var validate *validator.Validate
 
-type CreateUserRequest struct {
-	Email    string `json:"email" validate:"required"`
-	Password string `json:"password" validate:"required"`
-}
-
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
-	var input CreateUserRequest
+	var input model.CreateUserRequest
 
 	body, _ := ioutil.ReadAll(r.Body)
 	_ = json.Unmarshal(body, &input)
@@ -31,7 +27,10 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userID := uuid.New()
+
 	user := &model.User{
+		ID:       userID.String(),
 		Email:    input.Email,
 		Password: input.Password,
 	}
