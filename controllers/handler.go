@@ -70,8 +70,9 @@ func CompleteRegistration(w http.ResponseWriter, r *http.Request) {
 
 	var input model.CompleteRegistrationReuqest
 	var userID string
+	var email string
 
-	userIDcheck := model.DB.Raw("SELECT user_id FROM apikeys WHERE apikey = $1", apikey).Scan(&userID)
+	userIDcheck := model.DB.Raw("select user_id from users u left join apikeys ak on (ak.user_id = u.id) where apikey = $1;", apikey).Scan(&userID)
 	if userIDcheck.RowsAffected == 0 {
 		utils.RespondWithError(w, http.StatusUnprocessableEntity, "no user found")
 		return
@@ -90,4 +91,18 @@ func CompleteRegistration(w http.ResponseWriter, r *http.Request) {
 		model.DB.Exec("UPDATE users SET total_matches = $1, total_mmr = $2 WHERE id = $3", input.TotalMatches, input.TotalMmr, userID)
 	}
 
+	getEmail := model.DB.Raw("select email from users where id = $1;", userID).Scan(&email)
+	if getEmail.RowsAffected == 0 {
+		utils.RespondWithError(w, http.StatusInternalServerError, "No email found....Pzdc")
+		return
+	}
+
+	CompleteRegistrationResponse := &model.CompleteRegistrationResponse{
+		Email:        email,
+		TotalMmr:     input.TotalMmr,
+		TotalMatches: input.TotalMatches,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(CompleteRegistrationResponse)
 }
