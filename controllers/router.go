@@ -10,5 +10,6 @@ func New() http.Handler {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/registration", RegisterUser).Methods("POST")
+	router.HandleFunc("/registrationtwo", CompleteRegistration).Methods("PATCH")
 	return router
 }

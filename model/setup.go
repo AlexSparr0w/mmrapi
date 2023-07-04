@@ -26,6 +26,7 @@ func ConnectDatabase() {
 	}
 
 	database.AutoMigrate(&User{})
+	database.AutoMigrate(&Apikey{})
 
 	DB = database
 }

@@ -17,3 +17,8 @@ type CreateUserRequest struct {
 	Email    string `json:"email" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
+
+type CompleteRegistrationReuqest struct {
+	TotalMatches int    `json:"matches" validate:"required"`
+	TotalMmr     string `json:"mmr" validate:"required"`
+}
