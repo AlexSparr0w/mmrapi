@@ -16,3 +16,11 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.WriteHeader(code)
 	w.Write(response)
 }
+
+// func HandleWithApikey(r *http.Request) {
+// 	apikey := r.Header.Get("apikey")
+// 	check := model.DB.Exec("SELECT * FROM apikeys where apikey = $1", apikey)
+// 	if check == nil {
+// 		fmt.Println("no user found")
+// 	}
+// }
